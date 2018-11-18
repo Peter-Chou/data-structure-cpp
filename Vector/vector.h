@@ -28,6 +28,24 @@ class Vector {
   void quickSort(Rank lo, Rank hi);
   void heapSort(Rank lo, Rank hi);
 
+  //比较器
+  // template <typename T>
+  // static bool lt(T* a, T* b) {
+  //   return lt(*a, *b);
+  // }
+  // template <typename T>
+  // static bool lt(T& a, T& b) {
+  //   return a < b;
+  // }
+  // template <typename T>
+  // static bool eq(T* a, T* b) {
+  //   return eq(*a, *b);
+  // }
+  // template <typename T>
+  // static bool eq(T& a, T& b) {
+  //   return a == b;
+  // }
+
  public:
   // constructors
   Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0) {
@@ -173,7 +191,6 @@ int Vector<T>::deduplicate() {  // 删除无序向量中重复元素
   return oldSize - _size;
 }
 
-// TODO: check
 template <typename T>
 template <typename VST>
 void Vector<T>::traverse(VST& visit) {
@@ -187,6 +204,7 @@ void Vector<T>::traverse(void (*visit)(T&)) {
   for (int i = 0; i < _size; i++) visit(_elem[i]);
 }
 
+// TODO: check
 template <typename T>
 int Vector<T>::disordered() const {
   int n = 0;
