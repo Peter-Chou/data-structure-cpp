@@ -1,5 +1,5 @@
-#ifndef VECTOR_P_H_
-#define VECTOR_P_H_
+#ifndef DATA_STRUCTURE_VECTOR_H_
+#define DATA_STRUCTURE_VECTOR_H_
 #include <cstdlib>
 #include <utility>
 
@@ -13,6 +13,8 @@ class Vector {
   Rank _size;
   int _capacity;
   T* _elem;
+
+  // 以数组区间A[lo, hi)为蓝本复制向量
   void copyFrom(T const* A, Rank lo, Rank hi);
   void expand();
   void shrink();
@@ -20,7 +22,7 @@ class Vector {
   void bubbleSort(Rank lo, Rank hi);
   Rank max(Rank lo, Rank hi);
   void selectionSort(Rank lo, Rank hi);
-  void merge(Rank lo, Rank hi);
+  void merge(Rank lo, Rank mi, Rank hi);
   void mergeSort(Rank lo, Rank hi);
   Rank partition(Rank lo, Rank hi);
   void quickSort(Rank lo, Rank hi);
@@ -28,13 +30,19 @@ class Vector {
 
  public:
   // constructors
-  Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0);
-  Vector(T const* A, Rank lo, Rank hi) { copyFrom(A, lo, hi); }
+  Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0) {
+    _elem = new T[_capacity = c];
+    for (_size = 0; _size < s; _elem[_size++] = v)
+      ;
+  }
   Vector(T const* A, Rank n) { copyFrom(A, 0, n); }
-  Vector(Vector<T> const& v, Rank lo, Rank hi) { copyFrom(v._elem, lo, hi); }
+  Vector(T const* A, Rank lo, Rank hi) { copyFrom(A, lo, hi); }
   Vector(Vector<T> const& v) { copyFrom(v._elem, 0, v._size); }
+  Vector(Vector<T> const& v, Rank lo, Rank hi) { copyFrom(v._elem, lo, hi); }
+
   // destructor
   ~Vector() { delete[] _elem; }
+
   // read-only API
   Rank size() const { return _size; }
   bool empty() const { return !_size; }
@@ -56,27 +64,21 @@ class Vector {
   void unsort() { unsort(0, _size); }
   int deduplicate();
   int uniquify();
+
   // traverse
   void traverse(void (*)(T&));
   template <typename VST>
   void traverse(VST&);
 };  // Vector
 
+// ! ----------------------------------------------------------------------
+// ! Implementations of non-inline functions
+
 template <typename T>
 void Vector<T>::copyFrom(T const* A, Rank lo, Rank hi) {
   _elem = new T[_capacity = 2 * (hi - lo)];
   _size = 0;
-  while (lo < hi) {
-    _elem[_size++] = A[lo++];
-  }
-}
-
-template <typename T>
-Vector<T>::Vector(int c, int s, T v) {
-  _elem = new T[_capacity = c];
-  for (_size = 0; _size < s;) {
-    _elem[_size++] = v;
-  }
+  while (lo < hi) _elem[_size++] = A[lo++];
 }
 
 template <typename T>
@@ -84,7 +86,7 @@ Vector<T>& Vector<T>::operator=(Vector<T> const& v) {
   if (_elem) {
     delete[] _elem;
   }
-  copyFrom(v._elem, 0, v._size);
+  copyFrom(v._elem, 0, v.size());
   return *this;
 }
 
@@ -171,6 +173,7 @@ int Vector<T>::deduplicate() {  // 删除无序向量中重复元素
   return oldSize - _size;
 }
 
+// TODO: check
 template <typename T>
 template <typename VST>
 void Vector<T>::traverse(VST& visit) {
@@ -197,8 +200,7 @@ int Vector<T>::disordered() const {
 
 template <typename T>
 int Vector<T>::uniquify() {
-  Rank i = 0;
-  j = 0;
+  Rank i = 0, j = 0;
   while (++j < _size) {
     if (_elem[i] != _elem[j]) {
       _elem[++i] = _elem[j];
@@ -223,26 +225,27 @@ static Rank binSearch(T* A, T const& e, Rank lo, Rank hi) {
   return --lo;
 }
 
-// TODO(peter): 缺 selectionSort, heapSort, quickSort实现
+// TODO (peter): 缺 selectionSort, heapSort, quickSort实现
 template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi) {
-  switch (rand() % 5) {
-    case 1:
-      bubbleSort(Lo, hi);
-      break;
-    case 2:
-      selectionSort(Lo, hi);
-      break;
-    case 3:
-      mergeSort(Lo, hi);
-      break;
-    case 4:
-      heapSort(Lo, hi);
-      break;
-    default:
-      quickSort(Lo, hi);
-      break;
-  }
+  mergeSort(lo, hi);
+  // switch (rand() % 5) {
+  //   case 1:
+  //     bubbleSort(lo, hi);
+  //     break;
+  //   case 2:
+  //     selectionSort(lo, hi);
+  //     break;
+  //   case 3:
+  //     mergeSort(lo, hi);
+  //     break;
+  //   case 4:
+  //     heapSort(lo, hi);
+  //     break;
+  //   default:
+  //     quickSort(lo, hi);
+  //     break;
+  // }
 }
 
 template <typename T>
@@ -275,11 +278,11 @@ void Vector<T>::mergeSort(Rank lo, Rank hi) {
 }
 
 template <typename T>
-void Vector<T>::merge(Rank lo, Rank hi) {
+void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
   T* A = _elem + lo;
   int lb = mi - lo;
   T* B = new T[lb];
-  for (Rank i = 0; i < lb; B[i] = A[i++];)
+  for (Rank i = 0; i < lb; B[i] = A[i++])
     ;
   int lc = hi - mi;
   T* C = _elem + mi;
@@ -288,10 +291,10 @@ void Vector<T>::merge(Rank lo, Rank hi) {
       A[i++] = B[j++];
     }
     if ((k < lc) && (!(j < lb) || (C[k] < B[j]))) {
-      A[i++] = c[k++];
+      A[i++] = C[k++];
     }
   }
   delete[] B;
 }
 
-#endif  // ! VECTOR_P_H_
+#endif  // ! DATA_STRUCTURE_VECTOR_H_
