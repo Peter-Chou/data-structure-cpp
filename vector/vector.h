@@ -1,6 +1,7 @@
 #ifndef DATA_STRUCTURE_VECTOR_H_
 #define DATA_STRUCTURE_VECTOR_H_
 #include <cstdlib>
+#include <functional>
 #include <utility>
 
 typedef int Rank;
@@ -68,9 +69,10 @@ class Vector {
   int uniquify();
 
   // traverse
-  void traverse(void (*)(T&));
-  template <typename VST>
-  void traverse(VST&);
+  // void traverse(void (*)(T&));
+  // template <typename VST>
+  // void traverse(VST&);
+  void traverse(std::function<void(T&)>);
 };  // Vector
 
 // ! ----------------------------------------------------------------------
@@ -175,16 +177,21 @@ int Vector<T>::deduplicate() {  // 删除无序向量中重复元素
   return oldSize - _size;
 }
 
-template <typename T>
-template <typename VST>
-void Vector<T>::traverse(VST& visit) {
-  for (int i = 0; i < _size; i++) {
-    visit(_elem[i]);
-  }
-}
+// template <typename T>
+// template <typename VST>
+// void Vector<T>::traverse(VST& visit) {
+//   for (int i = 0; i < _size; i++) {
+//     visit(_elem[i]);
+//   }
+// }
+
+// template <typename T>
+// void Vector<T>::traverse(void (*visit)(T&)) {
+//   for (int i = 0; i < _size; i++) visit(_elem[i]);
+// }
 
 template <typename T>
-void Vector<T>::traverse(void (*visit)(T&)) {
+void Vector<T>::traverse(std::function<void(T&)> visit) {
   for (int i = 0; i < _size; i++) visit(_elem[i]);
 }
 
