@@ -10,7 +10,13 @@ void show(T& item) {
   std::cout << item << "\t";
 }
 
+template <typename T>
+struct Show {
+  void operator()(T& item) { std::cout << item << "\t"; }
+};
+
 int main() {
+  Show<int> show_item;
   Vector<int> arr;
   arr.insert(0, 2);
   arr.insert(0, 4);
@@ -33,7 +39,8 @@ int main() {
   arr.traverse(show);
   std::cout << "\nremove 4 from vector:\n";
   arr.remove(2);
-  arr.traverse(show);
+  // arr.traverse(show);
+  arr.traverse(show_item);
   std::cout << "\ncurrent vector size: " << arr.size() << std::endl;
   return 0;
 }
