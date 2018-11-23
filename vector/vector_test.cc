@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <algorithm>
 #include <iostream>
 
 template <typename U>
