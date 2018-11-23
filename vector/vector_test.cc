@@ -1,6 +1,8 @@
 #include "vector.h"
 #include <iostream>
 
+// using namespace datastruct;
+
 template <typename U>
 void square(U&);
 
@@ -16,7 +18,7 @@ struct Show {
 
 int main() {
   Show<int> show_item;
-  Vector<int> arr;
+  datastruct::Vector<int> arr;
   arr.insert(0, 2);
   arr.insert(0, 4);
   arr.insert(1, 5);

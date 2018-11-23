@@ -4,9 +4,11 @@
 #include <functional>
 #include <utility>
 
+namespace datastruct {
+
 typedef int Rank;
 // #define DEFAULT_CAPACITY 3;
-const int DEFAULT_CAPACITY = 3;
+static const int DEFAULT_CAPACITY = 3;
 
 template <typename T>
 class Vector {
@@ -233,7 +235,6 @@ static Rank binSearch(T* A, T const& e, Rank lo, Rank hi) {
   return --lo;
 }
 
-// FIXME: sort bug
 template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi) {
   mergeSort(lo, hi);
@@ -268,5 +269,6 @@ void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
   }
   delete[] B;
 }
+}  // namespace datastruct
 
 #endif  // ! DATA_STRUCTURE_VECTOR_H_
