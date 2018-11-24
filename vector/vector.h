@@ -19,17 +19,25 @@ class Vector {
 
   // 以数组区间A[lo, hi)为蓝本复制向量
   void copyFrom(const T* A, Rank lo, Rank hi);
+
+  // 容量不足时扩容成原来的两倍(当Vector满时)
   void expand();
+
+  // 当size < 25% capacity时，容量减半
   void shrink();
-  bool bubble(Rank lo, Rank hi);
-  void bubbleSort(Rank lo, Rank hi);
+
   Rank max(Rank lo, Rank hi);
-  void selectionSort(Rank lo, Rank hi);
-  void merge(Rank lo, Rank mi, Rank hi);
+
+  // 向量归并排序
   void mergeSort(Rank lo, Rank hi);
-  Rank partition(Rank lo, Rank hi);
-  void quickSort(Rank lo, Rank hi);
-  void heapSort(Rank lo, Rank hi);
+
+  // 二路归并算法
+  void merge(Rank lo, Rank mi, Rank hi);
+
+  // Rank partition(Rank lo, Rank hi);
+  // void selectionSort(Rank lo, Rank hi);
+  // void quickSort(Rank lo, Rank hi);
+  // void heapSort(Rank lo, Rank hi);
 
  public:
   // constructors
@@ -51,23 +59,52 @@ class Vector {
   T* end() const { return _elem + _size; }
   Rank size() const { return _size; }
   bool empty() const { return !_size; }
+
+  // 返回向量中逆序相邻元素对的总数
   int disordered() const;
-  Rank find(const T& e) const { return find(e, 0, _size); }
+
+  // 无序向量的顺利查找：返回一个元素e的位置；失败时返回lo-1
   Rank find(const T& e, Rank lo, Rank hi) const;
-  Rank search(const T& e) { return (0 >= _size) ? -1 : search(e, 0, _size); }
+
+  Rank find(const T& e) const { return find(e, 0, _size); }
+
+  // 在有序向量的区间[lo, hi)内查找元素e
+  // 若有多个命中元素时，返回秩最大者
+  // 若查找失败时，返回不大于e的元素的最大秩
   Rank search(const T& e, Rank lo, Rank hi) const;
+
+  Rank search(const T& e) { return (0 >= _size) ? -1 : search(e, 0, _size); }
   // writeable API
+
   T& operator[](Rank r) const;
   Vector<T>& operator=(const Vector<T>&);
-  T remove(Rank r);
+
+  // 删除区间[lo, hi)
   int remove(Rank lo, Rank hi);
+
+  // 删除秩为r的元素
+  T remove(Rank r);
+
+  // 将e作为秩为r元素插入
   Rank insert(Rank r, const T& e);
+
+  // 在vector尾部插入e
   Rank insert(const T& e) { return insert(_size, e); }
+
+  // 向量区间[lo, hi)排序
   void sort(Rank lo, Rank hi);
+
   void sort() { sort(0, _size); }
+
+  // 等概率随机置乱区间[lo, hi)
   void unsort(Rank lo, Rank hi);
+
   void unsort() { unsort(0, _size); }
+
+  // 删除无序向量中重复的元素
   int deduplicate();
+
+  // 删除有序向量中重复的元素
   int uniquify();
 
   // traverse
