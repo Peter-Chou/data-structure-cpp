@@ -1,3 +1,8 @@
+#ifndef DATA_STRUCTURE_LIST_NODE_H_
+#define DATA_STRUCTURE_LIST_NODE_H_
+
+namespace datastruct {
+
 typedef int Rank;
 #define ListNodePosi(T) ListNode<T>*
 
@@ -35,3 +40,5 @@ ListNodePosi(T) ListNode<T>::insertAsSucc(const T& e) {
   succ = x;
   return x;
 }
+}  // namespace datastruct
+#endif  // ! DATA_STRUCTURE_LIST_NODE_H_
