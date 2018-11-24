@@ -18,7 +18,7 @@ class Vector {
   T* _elem;
 
   // 以数组区间A[lo, hi)为蓝本复制向量
-  void copyFrom(T const* A, Rank lo, Rank hi);
+  void copyFrom(const T* A, Rank lo, Rank hi);
   void expand();
   void shrink();
   bool bubble(Rank lo, Rank hi);
@@ -38,10 +38,10 @@ class Vector {
     for (_size = 0; _size < s; _elem[_size++] = v)
       ;
   }
-  Vector(T const* A, Rank n) { copyFrom(A, 0, n); }
-  Vector(T const* A, Rank lo, Rank hi) { copyFrom(A, lo, hi); }
-  Vector(Vector<T> const& v) { copyFrom(v._elem, 0, v._size); }
-  Vector(Vector<T> const& v, Rank lo, Rank hi) { copyFrom(v._elem, lo, hi); }
+  Vector(const T* A, Rank n) { copyFrom(A, 0, n); }
+  Vector(const T* A, Rank lo, Rank hi) { copyFrom(A, lo, hi); }
+  Vector(const Vector<T>& v) { copyFrom(v._elem, 0, v._size); }
+  Vector(const Vector<T>& v, Rank lo, Rank hi) { copyFrom(v._elem, lo, hi); }
 
   // destructor
   ~Vector() { delete[] _elem; }
@@ -52,17 +52,17 @@ class Vector {
   Rank size() const { return _size; }
   bool empty() const { return !_size; }
   int disordered() const;
-  Rank find(T const& e) const { return find(e, 0, _size); }
-  Rank find(T const& e, Rank lo, Rank hi) const;
-  Rank search(T const& e) { return (0 >= _size) ? -1 : search(e, 0, _size); }
-  Rank search(T const& e, Rank lo, Rank hi) const;
+  Rank find(const T& e) const { return find(e, 0, _size); }
+  Rank find(const T& e, Rank lo, Rank hi) const;
+  Rank search(const T& e) { return (0 >= _size) ? -1 : search(e, 0, _size); }
+  Rank search(const T& e, Rank lo, Rank hi) const;
   // writeable API
   T& operator[](Rank r) const;
-  Vector<T>& operator=(Vector<T> const&);
+  Vector<T>& operator=(const Vector<T>&);
   T remove(Rank r);
   int remove(Rank lo, Rank hi);
-  Rank insert(Rank r, T const& e);
-  Rank insert(T const& e) { return insert(_size, e); }
+  Rank insert(Rank r, const T& e);
+  Rank insert(const T& e) { return insert(_size, e); }
   void sort(Rank lo, Rank hi);
   void sort() { sort(0, _size); }
   void unsort(Rank lo, Rank hi);
@@ -81,14 +81,14 @@ class Vector {
 // ! Implementations of non-inline functions
 
 template <typename T>
-void Vector<T>::copyFrom(T const* A, Rank lo, Rank hi) {
+void Vector<T>::copyFrom(const T* A, Rank lo, Rank hi) {
   _elem = new T[_capacity = 2 * (hi - lo)];
   _size = 0;
   while (lo < hi) _elem[_size++] = A[lo++];
 }
 
 template <typename T>
-Vector<T>& Vector<T>::operator=(Vector<T> const& v) {
+Vector<T>& Vector<T>::operator=(const Vector<T>& v) {
   if (_elem) {
     delete[] _elem;
   }
@@ -134,14 +134,14 @@ void Vector<T>::unsort(Rank lo, Rank hi) {
 }
 
 template <typename T>
-Rank Vector<T>::find(T const& e, Rank lo, Rank hi) const {
+Rank Vector<T>::find(const T& e, Rank lo, Rank hi) const {
   while ((lo < hi--) && (e != _elem[hi]))
     ;
   return hi;  // 失败时返回lo - 1
 }
 
 template <typename T>
-Rank Vector<T>::insert(Rank r, T const& e) {
+Rank Vector<T>::insert(Rank r, const T& e) {
   expand();
   for (int i = _size; i > r; i--) {
     _elem[i] = _elem[i - 1];
@@ -222,12 +222,12 @@ int Vector<T>::uniquify() {
 }
 
 template <typename T>
-Rank Vector<T>::search(T const& e, Rank lo, Rank hi) const {
+Rank Vector<T>::search(const T& e, Rank lo, Rank hi) const {
   binSearch(_elem, e, lo, hi);
 }
 
 template <typename T>
-static Rank binSearch(T* A, T const& e, Rank lo, Rank hi) {
+static Rank binSearch(T* A, const T& e, Rank lo, Rank hi) {
   while (lo < hi) {
     Rank mi = (lo + hi) >> 1;
     (e < A[mi]) ? hi = mi : lo = mi + 1;
