@@ -12,33 +12,6 @@ static const int DEFAULT_CAPACITY = 3;
 
 template <typename T>
 class Vector {
- protected:
-  Rank _size;
-  int _capacity;
-  T* _elem;
-
-  // 以数组区间A[lo, hi)为蓝本复制向量
-  void copyFrom(const T* A, Rank lo, Rank hi);
-
-  // 容量不足时扩容成原来的两倍(当Vector满时)
-  void expand();
-
-  // 当size < 25% capacity时，容量减半
-  void shrink();
-
-  Rank max(Rank lo, Rank hi);
-
-  // 向量归并排序
-  void mergeSort(Rank lo, Rank hi);
-
-  // 二路归并算法
-  void merge(Rank lo, Rank mi, Rank hi);
-
-  // Rank partition(Rank lo, Rank hi);
-  // void selectionSort(Rank lo, Rank hi);
-  // void quickSort(Rank lo, Rank hi);
-  // void heapSort(Rank lo, Rank hi);
-
  public:
   // constructors
   Vector(int c = DEFAULT_CAPACITY, int s = 0, T v = 0) {
@@ -112,6 +85,34 @@ class Vector {
   // template <typename VST>
   // void traverse(VST&);
   void traverse(std::function<void(T&)>);
+
+ protected:
+  Rank _size;
+  int _capacity;
+  T* _elem;
+
+  // 以数组区间A[lo, hi)为蓝本复制向量
+  void copyFrom(const T* A, Rank lo, Rank hi);
+
+  // 容量不足时扩容成原来的两倍(当Vector满时)
+  void expand();
+
+  // 当size < 25% capacity时，容量减半
+  void shrink();
+
+  Rank max(Rank lo, Rank hi);
+
+  // 向量归并排序
+  void mergeSort(Rank lo, Rank hi);
+
+  // 二路归并算法
+  void merge(Rank lo, Rank mi, Rank hi);
+
+  // Rank partition(Rank lo, Rank hi);
+  // void selectionSort(Rank lo, Rank hi);
+  // void quickSort(Rank lo, Rank hi);
+  // void heapSort(Rank lo, Rank hi);
+
 };  // Vector
 
 // ! ----------------------------------------------------------------------
