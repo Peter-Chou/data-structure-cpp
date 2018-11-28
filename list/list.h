@@ -141,7 +141,7 @@ List<T>::List(const List<T>& L, Rank r, int n) {
 }
 
 template <typename T>
-List<T> remove(ListNodePosi(T) p) {
+T List<T>::remove(ListNodePosi(T) p) {
   T e = p->data;
   p->pred->succ = p->succ;
   p->succ->pred = p->pred;
