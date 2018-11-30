@@ -10,33 +10,30 @@ namespace datastruct {
 // implementation using Vector
 template <typename T>
 class Stack : private Vector<T> {
-  using Vector<T>::size;
-  using Vector<T>::insert;
-  using Vector<T>::remove;
-
  public:
   Rank size() const { return Vector<T>::size(); }
   bool empty() const { return Vector<T>::empty(); }
-  void push(const T& e) { insert(size(), e); }
-  T pop() { return remove(size() - 1); }
-  T& top() { return (*this)[size() - 1]; }
+  void push(const T& e) { this->insert(this->size(), e); }
+  T pop() { return this->remove(this->size() - 1); }
+  T& top() { return (*this)[this->size() - 1]; }
   void traverse(std::function<void(T&)> functor) {
     return Vector<T>::traverse(functor);
   }
 };
 
 // ***************************
-// implementation using Vector
 // implementation using List
 // template <typename T>
-// class Stack : public List<T> {
+// class Stack : private List<T> {
 //  public:
-//   using List<T>::insertAsLast;
-//   using List<T>::remove;
-//   using List<T>::last;
-//   void push(const T& e) { insertAsLast(e); }
-//   T pop() { return remove(last()); }
-//   T& top() { return last()->data; }
+//   Rank size() const { return List<T>::size(); }
+//   bool empty() const { return List<T>::empty(); }
+//   void push(const T& e) { this->insertAsLast(e); }
+//   T pop() { return this->remove(this->last()); }
+//   T& top() { return this->last()->data; }
+//   void traverse(std::function<void(T&)> functor) {
+//     return List<T>::traverse(functor);
+//   }
 // };
 
 }  // namespace datastruct

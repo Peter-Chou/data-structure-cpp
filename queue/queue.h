@@ -6,16 +6,12 @@ namespace datastruct {
 
 template <typename T>
 class Queue : private List<T> {
-  using List<T>::insertAsLast;
-  using List<T>::remove;
-  using List<T>::first;
-
  public:
   Rank size() const { return List<T>::size(); }
   bool empty() const { return List<T>::empty(); }
-  void enqueue(const T& e) { insertAsLast(e); }
-  T dequeue() { return remove(first()); }
-  T& front() { return first()->data; }
+  void enqueue(const T& e) { this->insertAsLast(e); }
+  T dequeue() { return this->remove(this->first()); }
+  T& front() { return this->first()->data; }
   void traverse(std::function<void(T&)> functor) {
     return List<T>::traverse(functor);
   }
