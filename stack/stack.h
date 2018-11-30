@@ -1,3 +1,6 @@
+#ifndef DATA_STRUCTURE_STACK_H_
+#define DATA_STRUCTURE_STACK_H_
+
 #include "../vector/vector.h"
 // #include "../list/list.h"
 
@@ -31,3 +34,4 @@ class Stack : public Vector<T> {
 // };
 
 }  // namespace datastruct
+#endif  // ! DATA_STRUCTURE_STACK_H_
