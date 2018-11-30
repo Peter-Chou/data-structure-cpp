@@ -24,5 +24,6 @@ int main() {
   std::cout << std::endl
             << "is queue empty?  Re: " << std::boolalpha << s.empty()
             << std::endl;
+  std::cout << "\n the size of queue: " << s.size();
   return 0;
 }
