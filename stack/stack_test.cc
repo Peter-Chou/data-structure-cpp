@@ -20,5 +20,6 @@ int main() {
   std::cout << std::endl
             << "is stack empty?  Re: " << std::boolalpha << s.empty()
             << std::endl;
+  std::cout << "\n the size of stack: " << s.size();
   return 0;
 }

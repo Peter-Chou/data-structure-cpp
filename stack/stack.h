@@ -9,14 +9,20 @@ namespace datastruct {
 // ***************************
 // implementation using Vector
 template <typename T>
-class Stack : public Vector<T> {
- public:
+class Stack : private Vector<T> {
   using Vector<T>::size;
   using Vector<T>::insert;
   using Vector<T>::remove;
+
+ public:
+  Rank size() const { return Vector<T>::size(); }
+  bool empty() const { return Vector<T>::empty(); }
   void push(const T& e) { insert(size(), e); }
   T pop() { return remove(size() - 1); }
   T& top() { return (*this)[size() - 1]; }
+  void traverse(std::function<void(T&)> functor) {
+    return Vector<T>::traverse(functor);
+  }
 };
 
 // ***************************
