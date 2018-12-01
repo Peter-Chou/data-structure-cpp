@@ -11,15 +11,18 @@ struct ListNode {
   T data;
   ListNodePosi(T) pred;
   ListNodePosi(T) succ;
+
   // constructors
   ListNode() {}
   ListNode(T e, ListNodePosi(T) p = nullptr, ListNodePosi(T) s = nullptr)
       : data(e), pred(p), succ(s) {}
+
   // API
-  ListNodePosi(T)
-      insertAsPred(T const& e);  // insert the node next to current node
-  ListNodePosi(T)
-      insertAsSucc(T const& e);  // insert the node ahead of current node
+  // insert the node next to current node
+  ListNodePosi(T) insertAsPred(T const& e);
+
+  // insert the node ahead of current node
+  ListNodePosi(T) insertAsSucc(T const& e);
 };
 
 // ***************************************************************
