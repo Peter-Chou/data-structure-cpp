@@ -1,8 +1,9 @@
 #ifndef DATA_STRUCTURE_LIST_H_
 #define DATA_STRUCTURE_LIST_H_
 
-#include <functional>
 #include "list_node.h"
+#include <functional>
+
 
 namespace datastruct {
 
@@ -76,7 +77,7 @@ class List {
 
   // 全列表归并排序
   void merge(List<T>& L) {
-    merge(first(), size, L, L.first(), L.last(), L._size);
+    merge(first(), _size, L, L.first(), L.last(), L._size);
   }
 
   // 列表区间排序
