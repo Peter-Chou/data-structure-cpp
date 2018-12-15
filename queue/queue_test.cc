@@ -1,10 +1,8 @@
 #include "queue.h"
 #include <iostream>
+#include "../_share/utils.h"
 
-template <typename T>
-void print(T& p) {
-  std::cout << p << "\t";
-}
+using datastruct::print;
 
 int main() {
   datastruct::Queue<int> s;
