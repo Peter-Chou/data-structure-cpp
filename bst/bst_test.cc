@@ -24,12 +24,11 @@ int main() {
     bs.insert(elem);
   }
 
-  std::cout << "Initial BST Tree with Breadth-First traversal:\n";
-  bs.travLevel(print<int>);
+  std::cout << "Initial BST Tree with In-Order traversal:\n";
+  bs.travIn(print<int>);
   std::cout << std::endl;
   std::cout << "remove 5 from BST Tree:\n";
   bs.remove(5);
-  bs.travLevel(print<int>);
-
+  bs.travIn(print<int>);
   return 0;
 }

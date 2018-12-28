@@ -19,10 +19,10 @@
 
 
 
-Breadth-First traversal:
+In-Order traversal:
 
 ~~~sh
-3       0       5       2       4       8       1       7       9       6
+0       1       2       3       4       5       6       7       8       9
 ~~~
 
 ### Remove 5 from BST Tree
@@ -31,9 +31,9 @@ Breadth-First traversal:
 
 
 
-Breadth-First traversal:
+In-Order traversal:
 
 ~~~sh
-3       0       6       2       4       8       1       7       9
+0       1       2       3       4       6       7       8       9
 ~~~
 
