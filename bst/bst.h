@@ -25,12 +25,15 @@ class BST : public BinTree<T> {
   // "命中"节点的父亲
   BinNodePosi(T) _hot;
 
-  // 按照"3 + 4"结构，连接3个节点及4颗子树
+  // 按照"3 +
+  // 4"结构，连接3个节点及4颗子树，返回充足之后的局部子树根节点位置（即b）
+  // 上层节点指向子树根节点的连接由上层调用者完成
   BinNodePosi(T)
       connect34(BinNodePosi(T), BinNodePosi(T), BinNodePosi(T), BinNodePosi(T),
                 BinNodePosi(T), BinNodePosi(T), BinNodePosi(T));
 
-  // 对x及其父亲、祖父左统一旋转调整
+  // 对x及其父亲、祖父左统一旋转调整，返回调整之后局部子树根节点位置
+  // 上层节点指向子树根节点的连接由上层调用者完成
   BinNodePosi(T) rotateAt(BinNodePosi(T) x);
 };
 
@@ -95,6 +98,51 @@ static BinNodePosi(T) removeAt(BinNodePosi(T) & x, BinNodePosi(T) & hot) {
   release(w->data);
   release(w);
   return succ;
+}
+
+template <typename T>
+BinNodePosi(T) BST<T>::connect34(BinNodePosi(T) a, BinNodePosi(T) b,
+                                 BinNodePosi(T) c, BinNodePosi(T) T0,
+                                 BinNodePosi(T) T1, BinNodePosi(T) T2,
+                                 BinNodePosi(T) T3) {
+  a->lc = T0;
+  if (T0) T0->parent = a;
+  a->rc = T1;
+  if (T1) T1->parent = a;
+  this->updateHeight(a);
+  c->lc = T2;
+  if (T2) T2->parent = c;
+  c->rc = T3;
+  if (T3) T3->parent = c;
+  this->updateHeight(c);
+  b->lc = a;
+  a->parent = b;
+  b->rc = c;
+  c->parent = b;
+  this->updateHeight(b);
+  return b;
+}
+
+template <typename T>
+BinNodePosi(T) BST<T>::rotateAt(BinNodePosi(T) v) {  // v为非空孙辈节点
+  BinNodePosi(T) p = v->parent;
+  BinNodePosi(T) g = p->parent;
+  if (IsLChild(*p))     /* zig */
+    if (IsLChild(*v)) { /* zig-zig */
+      p->parent = g->parent;
+      return connect34(v, p, g, v->lc, v->rc, p->rc, g->rc);
+    } else { /* zig-zag */
+      v->parent = g->parent;
+      return connect34(p, v, g, p->lc, v->lc, v->rc, g->rc);
+    }
+  else                    /* zag */
+      if (IsRChild(*v)) { /* zag-zag */
+    p->parent = g->parent;
+    return connect34(g, p, v, g->lc, p->lc, v->lc, v->rc);
+  } else {
+    v->parent = g->parent;
+    return connect34(g, v, p, g->lc, v->lc, v->rc, p->rc);
+  }
 }
 
 }  // namespace datastruct
