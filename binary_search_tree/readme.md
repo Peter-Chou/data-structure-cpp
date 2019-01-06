@@ -1,7 +1,7 @@
-# BST Tree
+# Binary Search Tree (BST)
 
 
-## BST Tree API (public derived from BinTree)
+## BST API (public derived from BinTree)
 
 |    API    |             功能             |
 | :-------: | :--------------------------: |
@@ -11,7 +11,7 @@
 
 ---
 
-### Initial BST Tree
+### Initial BST
 
 
 
@@ -25,7 +25,7 @@ In-Order traversal:
 0       1       2       3       4       5       6       7       8       9
 ~~~
 
-### Remove 5 from BST Tree
+### Remove 5 from BST
 
 ![bst_remove](./bst_remove.png)
 

@@ -1,9 +1,9 @@
 #ifndef DATA_STRUCTURE_BIN_NODE_H_
 #define DATA_STRUCTURE_BIN_NODE_H_
 
-#include <iostream>
 #include "../queue/queue.h"
 #include "../stack/stack.h"
+#include <iostream>
 
 namespace datastruct {
 #define BinNodePosi(T) BinNode<T>*           // 节点位置
@@ -34,7 +34,7 @@ namespace datastruct {
 
 // x is BinNode
 #define FromParentTo(x) /*来自父亲的引用*/ \
-  (IsRoot(x) ? _root : (IsLChild(x) ? (x).parent->lc : (x).parent->rc))
+  (IsRoot(x) ? this->_root : (IsLChild(x) ? (x).parent->lc : (x).parent->rc))
 
 typedef enum { RB_RED, RB_BLACK } RBColor;  // 节点颜色
 
