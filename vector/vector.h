@@ -108,9 +108,12 @@ class Vector {
   // 二路归并算法
   void merge(Rank lo, Rank mi, Rank hi);
 
-  // Rank partition(Rank lo, Rank hi);
+  // 向量快速排序
+  void quickSort(Rank lo, Rank hi);
+
+  // 快速排序轴点构造算法
+  Rank partition(Rank lo, Rank hi);
   // void selectionSort(Rank lo, Rank hi);
-  // void quickSort(Rank lo, Rank hi);
   // void heapSort(Rank lo, Rank hi);
 
 };  // Vector
@@ -217,19 +220,6 @@ int Vector<T>::deduplicate() {  // 删除无序向量中重复元素
   return oldSize - _size;
 }
 
-// template <typename T>
-// template <typename VST>
-// void Vector<T>::traverse(VST& visit) {
-//   for (int i = 0; i < _size; i++) {
-//     visit(_elem[i]);
-//   }
-// }
-
-// template <typename T>
-// void Vector<T>::traverse(void (*visit)(T&)) {
-//   for (int i = 0; i < _size; i++) visit(_elem[i]);
-// }
-
 template <typename T>
 void Vector<T>::traverse(std::function<void(T&)> visit) {
   for (int i = 0; i < _size; i++) visit(_elem[i]);
@@ -275,7 +265,14 @@ static Rank binSearch(T* A, const T& e, Rank lo, Rank hi) {
 
 template <typename T>
 void Vector<T>::sort(Rank lo, Rank hi) {
-  mergeSort(lo, hi);
+  switch (std::rand() % 2) {
+    case 1:
+      mergeSort(lo, hi);
+      break;
+    default:
+      quickSort(lo, hi);
+      break;
+  }
 }
 
 template <typename T>
@@ -307,6 +304,39 @@ void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
   }
   delete[] B;
 }
+
+template <typename T>
+void Vector<T>::quickSort(Rank lo, Rank hi) {
+  if (hi - lo < 2) return;
+  Rank mi = partition(lo, hi - 1);
+  quickSort(lo, mi);
+  quickSort(mi + 1, hi);
+}
+
+template <typename T>
+Rank Vector<T>::partition(Rank lo, Rank hi) {
+  std::swap(_elem[lo], _elem[lo + std::rand() % (hi - lo + 1)]);
+  T pivot = _elem[lo];
+  while (lo < hi) {
+    while (lo < hi)
+      if (pivot < _elem[hi])
+        hi--;
+      else {
+        _elem[lo++] = _elem[hi];
+        break;
+      }
+    while (lo < hi)
+      if (_elem[lo] < pivot)
+        lo++;
+      else {
+        _elem[hi--] = _elem[lo];
+        break;
+      }
+  }
+  _elem[lo] = pivot;
+  return lo;
+}
+
 }  // namespace datastruct
 
 #endif  // ! DATA_STRUCTURE_VECTOR_H_
